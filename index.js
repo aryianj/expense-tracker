@@ -1,5 +1,5 @@
 var counter = 0; // expense counter to keep track of expenses
-
+var b = 0;
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("btn").addEventListener("click", function(event) {
         event.preventDefault();
@@ -18,9 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
 function setBudget() {
     var bAmount = parseFloat(document.getElementById("b-amount").value);
     bAmount = bAmount.toFixed(2);
+    b = bAmount;
 
     var budget = document.getElementById("budget-available");
     budget.setAttribute("aria-valuemax", bAmount);
+    budget.setAttribute("aria-valuenow", bAmount);
     budget.innerHTML = '$' + bAmount + ' Available';
 }
 
@@ -57,6 +59,14 @@ function addExpense() {
         }  
         document.getElementById("expenses-list").appendChild(tr);
     }
+
+    var budget = document.getElementById("budget-available");
+    budget.setAttribute("aria-valuenow", b-eAmount);
+    var p = (eAmount * 100) / b;
+    b-=eAmount;
+    per = 100-p + '%'
+    budget.style.width = per;
+    budget.innerHTML = '$' + (b) + ' Available';
 }
 
 function addCategory() {
